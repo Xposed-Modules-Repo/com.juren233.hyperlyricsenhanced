@@ -16,7 +16,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Android-13%2B-3DDC84?style=flat-square" alt="最低 Android 13" />
   <img src="https://img.shields.io/badge/ABI-arm64--v8a-64748B?style=flat-square" alt="arm64-v8a" />
-  <a href="#compatibility"><img src="https://img.shields.io/badge/Apple%20Music-6.5.0%E2%80%936.5.3-FA243C?style=flat-square" alt="已支持 Apple Music 6.5.0–6.5.3" /></a>
+  <a href="#compatibility"><img src="https://img.shields.io/badge/Apple%20Music-6.5.0%E2%80%937.0.0-FA243C?style=flat-square" alt="已支持 Apple Music 6.5.0–7.0.0" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-2563EB?style=flat-square" alt="GPL-3.0 许可证" /></a>
 </p>
 
@@ -83,7 +83,7 @@ HyperLyrics Enhanced 是为**小米 HyperOS 设备**打造的**超级岛 / 息�
 
 - **内置歌词接入**：同步逐字歌词、伴唱、播放状态和歌曲信息，无需另装 Apple Music Provider 模块。
 - **补充歌词、翻译与发音**：为缺少歌词的歌曲检索在线来源；在播放界面切换来源并查看匹配情况。默认优先保留 Apple 原生内容，缺失部分再通过三方在线源以及AI补全。
-- **逐字歌词增强**：可通过 **LunaBeat TTML 歌词站**为部分逐行歌词提供逐字版本（属于实验性功能，取决于曲库收录与匹配结果）。
+- **逐字歌词增强**：「原生逐行歌词转用三方逐字歌词」可选「不开启」「仅TTML源」「所有来源」；TTML 源指 **AMLL TTML DB**、**LunaBeat TTML 歌词站**，「所有来源」另含已启用的 QQ 音乐、网易云音乐、酷我、酷狗（取决于曲库收录与匹配结果）。
 - **文字与显示**：繁体转简体、隐藏国语歌拼音、歌词模糊效果、跟随系统字体；部分字体粗细适配跟随 HyperOS。
 - **歌曲信息与播放体验**：内容 UI 地区语言、歌曲信息地区化、恢复中日韩歌曲原地区名称、检索缓存、点击媒体通知直达播放页，以及动态提升 Dolby Atmos 外放音量。
 
@@ -178,7 +178,7 @@ HyperLyrics Enhanced 是为**小米 HyperOS 设备**打造的**超级岛 / 息�
 | 功能 | 环境与限制 |
 | :--- | :--- |
 | 超级岛与媒体卡片增强 | 面向 HyperOS 3 / 4 与 LSPosed v2.0+；依赖具体 SystemUI 及系统插件实现 |
-| Apple Music 深度适配 | Android 13+ 与 LSPosed；当前代码包含 Apple Music **6.5.0-6.5.3** 等版本的适配配置，不能据此保证任意版本可用 |
+| Apple Music 深度适配 | Android 13+ 与 LSPosed；当前代码包含 Apple Music **6.5.0-7.0.0** 等版本的适配配置，不能据此保证任意版本可用 |
 | 官方 Provider 插件 | 需要对应App、插件及作用域；可用版本和能力以插件目录及更新说明为准 |
 | 锁屏 AOD / 经典 AOD | 米系设备及兼容的 AOD 实现；不同系统的呈现方式可能不同 |
 | 通知歌词 | Android 13+；依赖权限、播放器输出及后台存活情况 |
@@ -218,6 +218,15 @@ HyperLyrics Enhanced 是为**小米 HyperOS 设备**打造的**超级岛 / 息�
 <summary><strong>关闭功能入口只是把页面藏起来吗？</strong></summary>
 
 不是。相关入口开关也会停用其管理的功能，并暂存原开关状态，在重新开启入口时恢复。只想微调显示效果时，请进入对应功能页面修改具体选项。
+
+</details>
+
+<details>
+<summary><strong>浏览器、PWA 等没有歌词的播放器，怎么用在线源取词？</strong></summary>
+
+进入「歌词设置 → 三方在线源配置」，在「启用App」卡片底部点「更多App」，搜索并勾选需要的应用，包含没有桌面入口的 WebAPK。只对已勾选的应用取词，默认不勾选任何应用，此时不会查询。主源没有歌词时，按该页「平台来源」的顺序取词，主源歌词到达后优先使用主源，歌词源可继续选 Lyricon。
+
+播放器需提供可信的歌曲名、歌手和时长；在线候选的标题、歌手、版本标记（如现场、翻唱）也要一致，时长相差小于 1.5 秒，没有对应版本时可能无词。不确定该勾选哪个应用时，播放中执行 `adb shell dumpsys media_session`，找到当前会话的 `package`（PWA 可能使用独立 WebAPK 包名，也可能使用浏览器包名），在「更多App」中核对每个应用下方显示的包名。
 
 </details>
 
